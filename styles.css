@@ -1,0 +1,49 @@
+body {
+    background: linear-gradient(to bottom right, #dbe6f6, #ffffff);
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#app {
+    height: 100vh;
+    
+}
+
+.status-label {
+    color: green;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.save-btn {
+    background-color: gray;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.save-btn:hover {
+    background-color: green; 
+}
+
+
+.form-card {
+    background: linear-gradient(145deg, #fdfdfd, #e6f0ff); /* subtle gradient */
+    border-radius: 15px;
+    overflow: visible;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* soft shadow */
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the card */
+.form-card:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    transform: translateY(-3px); /* subtle lift */
+}
+
+/* Optional: smooth input focus glow */
+.webix_input:focus, .webix_el_text:focus {
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 8px #4CAF50;
+    border-radius: 5px;
+}
