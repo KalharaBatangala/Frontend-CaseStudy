@@ -8,7 +8,7 @@ const FORM_CONFIG = {
     FORM_MIN_WIDTH: 600,
     FORM_MAX_WIDTH: 1200,
     FORM_PADDING:30,
-    TOOLBAR_PADDING: 10,         // MAKE THIS IN ALPHEBATICAL ORDER
+    TOOLBAR_PADDING: 10,         
     THEME_SETTING_LABEL_WIDTH: 150
 };
 
@@ -141,7 +141,8 @@ webix.ready(function () {
                                     rules: {
                                         username: webix.rules.isNotEmpty,
                                         email: webix.rules.isEmail,
-                                        password: webix.rules.isNotEmpty    // password validated separately
+                                        current_password: webix.rules.isNotEmpty,
+                                        //password: webix.rules.isNotEmpty    // password validated separately
 
                                     }
 
@@ -377,14 +378,26 @@ function saveAccountSettings() {
 
   const values = form.getValues();
 
-  
-  const passwordCheck = validatePassword(values.password);
 
+  if (!values.current_password) {
+    webix.message({ type: "error", text: "Please enter your current password." });
+    return;
+  }
+  if (!values.new_password1 || !values.new_password2) {
+    webix.message({ type: "error", text: "Please fill both new password fields." });
+    return;
+  }
+
+  
+  if (values.new_password1 !== values.new_password2) {
+    webix.message({ type: "error", text: "New passwords do not match." });
+    return;
+  }
+
+  // Validate new password 
+  const passwordCheck = validatePassword(values.new_password1);
   if (passwordCheck !== true) {
-    webix.message({
-      type: "error",
-      text: passwordCheck   
-    });
+    webix.message({ type: "error", text: passwordCheck });
     return;
   }
 
@@ -459,7 +472,7 @@ function saveThemeSettings() {
         expire: 3000
     });
 
-    applyThemePreview(data); // optional live preview
+    applyThemePreview(data); 
 }
 
 function applyThemePreview(theme) {
@@ -476,10 +489,10 @@ function applyThemePreview(theme) {
         applyLayout(layout);
     }
 
-    // ✅ FONT SYSTEM
+    
     document.body.style.fontFamily = theme.fontStyle;
 
-    // ✅ THEME SWITCHING (REAL DARK MODE)
+    
     document.body.classList.remove("dark-theme", "light-theme");
 
     if (theme.themeMode === "dark") {
@@ -488,7 +501,7 @@ function applyThemePreview(theme) {
         document.body.classList.add("light-theme");
     }
 
-    // ✅ GLOBAL PRIMARY COLOR SYSTEM (REAL BRANDING)
+    
     document.documentElement.style.setProperty(
         "--primary-color",
         theme.primaryColor
