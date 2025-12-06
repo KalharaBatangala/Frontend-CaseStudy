@@ -444,32 +444,48 @@ webix.ready(function () {
                         },
 
                         {
-                            view: "button",
-                            label: "Download My Data",
-                            css: "webix_secondary",
-                            click: function () {
-                            webix.message("Your data export is being prepared...");
+                            cols: [
+                                {},
+                                {
+                                    view: "button",
+                                    label: "Download My Data",
+                                    css: "webix_secondary",
+                                    inputWidth: 400,
+                                    click: function () {
+                                    webix.message("Your data export is being prepared...");
                             }
+                                },
+                                {}
+                            ]
+                            
                         },
 
                         {
-                            view: "button",
-                            label: "Delete My Account",
-                            css: "webix_danger",
-                            click: function () {
-                            webix.confirm({
-                                title: "Confirm Account Deletion",
-                                text: "This action is permanent and cannot be undone. Are you sure?",
-                                callback: function (res) {
-                                if (res) {
-                                    webix.message({
-                                    type: "error",
-                                    text: "Your account has been scheduled for deletion."
+                            cols: [
+                                {},
+                                {
+                                    view: "button",
+                                    label: "Delete My Account",
+                                    css: "webix_danger",
+                                    inputWidth: 400,
+                                    click: function () {
+                                    webix.confirm({
+                                        title: "Confirm Account Deletion",
+                                        text: "This action is permanent and cannot be undone. Are you sure?",
+                                        callback: function (res) {
+                                        if (res) {
+                                            webix.message({
+                                            type: "error",
+                                            text: "Your account has been scheduled for deletion."
+                                            });
+                                        }
+                                        }
                                     });
-                                }
-                                }
-                            });
-                            }
+                                    }
+                                },
+                                {}
+                            ]
+                            
                         },
 
                         {

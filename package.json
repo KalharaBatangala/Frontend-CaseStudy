@@ -1,0 +1,29 @@
+{
+  "name": "casestudy-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KalharaBatangala/Frontend-CaseStudy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KalharaBatangala/Frontend-CaseStudy/issues"
+  },
+  "homepage": "https://github.com/KalharaBatangala/Frontend-CaseStudy#readme",
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@babel/register": "^7.28.3",
+    "@playwright/test": "^1.57.0",
+    "jest": "^30.2.0"
+  }
+}
