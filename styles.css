@@ -1,7 +1,72 @@
+/* ========== LIGHT THEME ========== */
+.light-theme {
+    background: #f5f7fa;
+    color: #000000;
+}
+
+/* ========== DARK THEME ========== */
+.dark-theme {
+    background: #121212;
+    color: #ffffff;
+}
+
+.dark-theme .webix_view,
+.dark-theme .webix_layout,
+.dark-theme .webix_form {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+}
+
+.dark-theme .webix_toolbar {
+    
+    background: #1a1a1a !important;
+}
+
+.dark-theme .webix_tabheader .webix_item_tab {
+    background: #2a2a2a !important;
+    color: #ffffff !important;
+}
+
+.dark-theme .webix_tabheader .webix_item_tab.webix_selected {
+    background: var(--primary-color) !important;
+    color: #ffffff !important;
+}
+
+/* ========== PRIMARY COLOR SYSTEM ========== */
+:root {
+    --primary-color: #4CAF50;
+    --app-font: "Segoe UI", system-ui, sans-serif;
+    --form-padding: 24px;
+    --field-gap: 12px;
+    --form-max-width: 650px;
+}
+
+/* Save buttons */
+.save-btn button,
+.save-btn {
+    background: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+/* Toolbar title accent */
+.webix_toolbar .webix_el_label {
+    color: var(--primary-color) !important;
+    font-weight: bold;
+}
+
+/* Input focus color */
+.webix_input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+
+
 body {
     background: linear-gradient(to bottom right, #dbe6f6, #ffffff);
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: var(--app-font);
 }
 
 #app {
@@ -27,23 +92,82 @@ body {
 
 
 .form-card {
+    min-width: 600px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
     background: linear-gradient(145deg, #fdfdfd, #e6f0ff); /* subtle gradient */
     border-radius: 15px;
-    overflow: visible;
+    overflow: hidden;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* soft shadow */
     padding: 20px;
     transition: all 0.3s ease;
 }
 
-/* Hover effect for the card */
-.form-card:hover {
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    transform: translateY(-3px); /* subtle lift */
-}
+
 
 /* Optional: smooth input focus glow */
 .webix_input:focus, .webix_el_text:focus {
     border: 2px solid #4CAF50;
     box-shadow: 0 0 8px #4CAF50;
     border-radius: 5px;
+}
+
+
+/* =========================
+   DARK MODE LABEL VISIBILITY FIX
+   ========================= */
+
+.dark-theme .webix_form label,
+.dark-theme .webix_el_box,
+.dark-theme .webix_el_box span,
+.dark-theme .webix_inp_label,
+.dark-theme .webix_el_text label,
+.dark-theme .webix_el_password label,
+.dark-theme .webix_el_email label,
+.dark-theme .webix_el_combo label {
+    color: #ffffff !important;
+}
+
+/* Tab bar background */
+.dark-theme .webix_tabbar {
+    background: #121212 !important;
+}
+
+/* Individual inactive tabs */
+.dark-theme .webix_item_tab {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+    border-color: #333 !important;
+}
+
+/* Active tab */
+.dark-theme .webix_item_tab.webix_selected {
+    background: #0f172a !important;   /* premium deep blue */
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: inset 0 -3px 0 var(--primary-color);
+}
+
+/* Premium Experience */
+.dark-theme .webix_item_tab:hover {
+    background: #2a2a2a !important;
+    transition: 0.2s ease;
+}
+
+
+/* Apply to Webix form */
+.webix_form {
+    padding: var(--form-padding) !important;
+}
+
+/* Space between elements */
+.webix_el_box {
+    margin-bottom: var(--field-gap) !important;
+}
+
+/* Form container width */
+.form-wrapper {
+    max-width: var(--form-max-width);
+    margin: auto;
 }
