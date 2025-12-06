@@ -12,6 +12,8 @@ const FORM_CONFIG = {
     THEME_SETTING_LABEL_WIDTH: 150
 };
 
+webix.UIManager.tabControl = true;
+
 webix.ready(function () {
 
     webix.ui({
@@ -98,7 +100,7 @@ webix.ready(function () {
                                             view: "text",
                                             type: "password",
                                             name: "new_password1",
-                                            label: "New_Password",
+                                            label: "New Password",
                                             inputWidth: 900,
                                             labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
                                             //width: FORM_CONFIG.INPUT_WIDTH,
@@ -359,7 +361,140 @@ webix.ready(function () {
                             
                     }
 },
-                    { header: "Privacy Settings", body: { template: "Privacy Settings Content" }}
+                    { 
+                    header: "Privacy Settings",
+                    
+                    body: {
+                    rows: [
+                    {},
+
+                    {
+                        view: "form",
+                        id: "privacyForm",
+                        css: "form-card",
+                        padding: FORM_CONFIG.FORM_PADDING,
+
+                        elements: [
+                        {
+                            view: "label",
+                            id: "privacyStatus",
+                            label: "",
+                            css: "status-label",
+                            height: 30
+                        },
+
+                        {
+                            view: "richselect",
+                            label: "Profile Visibility",
+                            name: "visibility",
+                            inputWidth: 900,
+                            labelWidth: FORM_CONFIG.THEME_SETTING_LABEL_WIDTH,
+                            options: [
+                            { id: "public", value: "Public" },
+                            { id: "friends", value: "Friends Only" },
+                            { id: "private", value: "Private" }
+                            ],
+                            value: "public"
+                        },
+
+                        {
+                            view: "switch",
+                            label: "Allow Search Engine Indexing",
+                            name: "searchIndexing",
+                            labelWidth: 250,
+                            value: 1
+                        },
+
+                        {
+                            view: "switch",
+                            label: "Share Data with Partners",
+                            name: "dataSharing",
+                            labelWidth: 250,
+                            value: 0
+                        },
+
+                        {
+                            view: "switch",
+                            label: "Show Read Receipts",
+                            name: "readReceipts",
+                            labelWidth: 250,
+                            value: 1
+                        },
+
+                        {
+                            view: "switch",
+                            label: "Enable Two-Factor Authentication",
+                            name: "twoFactor",
+                            labelWidth: 250,
+                            value: 0
+                        },
+                        {
+                            view: "switch",
+                            label: "Allow Camera & Microphone Access",
+                            name: "mediaAccess",
+                            labelWidth: 250,
+                            value: 0
+                        },
+
+                        { height: 20 },
+
+                        {
+                            template: "<b>Danger Zone</b>",
+                            type: "section"
+                        },
+
+                        {
+                            view: "button",
+                            label: "Download My Data",
+                            css: "webix_secondary",
+                            click: function () {
+                            webix.message("Your data export is being prepared...");
+                            }
+                        },
+
+                        {
+                            view: "button",
+                            label: "Delete My Account",
+                            css: "webix_danger",
+                            click: function () {
+                            webix.confirm({
+                                title: "Confirm Account Deletion",
+                                text: "This action is permanent and cannot be undone. Are you sure?",
+                                callback: function (res) {
+                                if (res) {
+                                    webix.message({
+                                    type: "error",
+                                    text: "Your account has been scheduled for deletion."
+                                    });
+                                }
+                                }
+                            });
+                            }
+                        },
+
+                        {
+                            margin: FORM_CONFIG.ELEMENT_MARGIN,
+                            cols: [
+                            {},
+                            {
+                                view: "button",
+                                label: "Save Privacy Settings",
+                                css: "save-btn",
+                                width: FORM_CONFIG.SAVE_BUTTON_WIDTH,
+                                click: savePrivacySettings
+                            },
+                            {}
+                            ]
+                        }
+                        ]
+                    },
+
+                    {}
+                    ]
+                }
+}
+
+
                 ]
             },
             
@@ -545,4 +680,20 @@ function applyLayout(layoutType) {
         document.documentElement.style.setProperty("--field-gap", "12px");
         document.documentElement.style.setProperty("--form-max-width", "1000px");
     }
+}
+
+
+function savePrivacySettings() {
+  const form = $$("privacyForm");
+
+  if (!form.validate()) return;
+
+  const values = form.getValues();
+
+  console.log("Saved Privacy Settings:", values);
+
+  webix.message({
+    type: "success",
+    text: "Privacy Settings Saved Successfully!"
+  });
 }

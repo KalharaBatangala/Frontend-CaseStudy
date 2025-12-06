@@ -55,11 +55,21 @@
     font-weight: bold;
 }
 
+
+/* ACCESSABILITY REQUIREMENTS */
 /* Input focus color */
 .webix_input:focus {
     border-color: var(--primary-color) !important;
     box-shadow: 0 0 5px var(--primary-color);
 }
+
+.webix_el_box:focus,
+.webix_view:focus,
+button:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: 2px;
+}
+
 
 
 
