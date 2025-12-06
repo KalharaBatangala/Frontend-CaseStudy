@@ -1,6 +1,6 @@
 
 const FORM_CONFIG = {
-    ACC_SETTING_LABEL_WIDTH: 120,
+    ACC_SETTING_LABEL_WIDTH: 170,
     NOTIFICATION_LABEL_WIDTH: 240,
     INPUT_WIDTH: 400,
     ELEMENT_MARGIN: 10,
@@ -84,14 +84,41 @@ webix.ready(function () {
                                         {
                                             view: "text",
                                             type: "password",
-                                            name: "password",
-                                            label: "Password",
+                                            name: "current_password",
+                                            label: "Current Password",
                                             inputWidth: 900,
                                             labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
                                             //width: FORM_CONFIG.INPUT_WIDTH,
-                                            placeholder: "Minimum 8 characters",
+                                            placeholder: "Enter your current password",
                                             required: true,
-                                            invalidMessage: "Password must be at least 8 characters"
+                                            invalidMessage: "Password must be at least 8 characters",
+                                            
+                                        },
+                                        {
+                                            view: "text",
+                                            type: "password",
+                                            name: "new_password1",
+                                            label: "New_Password",
+                                            inputWidth: 900,
+                                            labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
+                                            //width: FORM_CONFIG.INPUT_WIDTH,
+                                            placeholder: "Enter a New Password",
+                                            required: true,
+                                            invalidMessage: "Password must be at least 8 characters",
+                                            
+                                        },
+                                        {
+                                            view: "text",
+                                            type: "password",
+                                            name: "new_password2",
+                                            label: "Retype New Password",
+                                            inputWidth: 900,
+                                            labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
+                                            //width: FORM_CONFIG.INPUT_WIDTH,
+                                            placeholder: "Re-type your New Password",
+                                            required: true,
+                                            invalidMessage: "Password must be at least 8 characters",
+                                            
                                         },
                                         {
                                             margin: 10,
@@ -267,7 +294,7 @@ webix.ready(function () {
                                                 view: "colorpicker",
                                                 label: "Primary Color",
                                                 name: "primaryColor",
-                                                inputWidth: 420,
+                                                inputWidth:900,
                                                 labelWidth: FORM_CONFIG.THEME_SETTING_LABEL_WIDTH,
                                                 value: "#4CAF50"
                                             },

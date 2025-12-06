@@ -171,3 +171,13 @@ body {
     max-width: var(--form-max-width);
     margin: auto;
 }
+
+.eye-toggle {
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    padding: 0 10px;
+}
+.eye-toggle:hover {
+    color: #333;
+}
