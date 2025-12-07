@@ -10,7 +10,9 @@ A modern **full-stack user settings management system** built with **Webix UI (F
 ## 🔗 Related Repository
 
 Backend (Django REST API):  
-👉 https://github.com/KalharaBatangala/Backend-CaseStudy
+
+https://github.com/KalharaBatangala/Backend-CaseStudy
+
 ---
 
 ## Features
