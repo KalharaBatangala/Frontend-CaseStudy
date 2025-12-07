@@ -14,6 +14,17 @@ const FORM_CONFIG = {
 
 webix.UIManager.tabControl = true;
 
+
+let isAccountDirty = false;
+let isNotificationDirty = false;
+let isThemeDirty = false;
+let isPrivacyDirty = false;
+
+
+
+
+
+
 webix.ready(function () {
 
     webix.ui({
@@ -32,6 +43,31 @@ webix.ready(function () {
 
             {
                 view: "tabview",
+                on: {
+                onBeforeTabClick: function () {
+                    if (
+                    isAccountDirty ||
+                    isNotificationDirty ||
+                    isThemeDirty ||
+                    isPrivacyDirty
+                    ) {
+                    webix.confirm({
+                        title: "Unsaved Changes",
+                        text: "You have unsaved changes. Do you really want to switch tabs?",
+                        callback: function (result) {
+                        if (result) {
+                            isAccountDirty = false;
+                            isNotificationDirty = false;
+                            isThemeDirty = false;
+                            isPrivacyDirty = false;
+                        }
+                        }
+                    });
+
+                    return false; // BLOCK TAB CHANGE
+                    }
+                }
+                },
                 cells: [
                     
                     
@@ -50,6 +86,11 @@ webix.ready(function () {
                                     id: "accountForm",
                                     css: "form-card",
                                     padding: FORM_CONFIG.FORM_PADDING,
+                                    on: {
+                                    onChange: function () {
+                                        isAccountDirty = true;
+                                    }
+                                    },
                                     //minWidth: FORM_CONFIG.FORM_MIN_WIDTH,
                                     //maxWidth: FORM_CONFIG.FORM_MAX_WIDTH,
                                     elements: [
@@ -88,6 +129,7 @@ webix.ready(function () {
                                             type: "password",
                                             name: "current_password",
                                             label: "Current Password",
+                                            
                                             inputWidth: 900,
                                             labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
                                             //width: FORM_CONFIG.INPUT_WIDTH,
@@ -101,6 +143,11 @@ webix.ready(function () {
                                             type: "password",
                                             name: "new_password1",
                                             label: "New Password",
+                                            on: {
+                                            onTimedKeyPress: function () {
+                                            updatePasswordStrength(this.getValue());
+                                                }
+                                            },
                                             inputWidth: 900,
                                             labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
                                             //width: FORM_CONFIG.INPUT_WIDTH,
@@ -114,6 +161,7 @@ webix.ready(function () {
                                             type: "password",
                                             name: "new_password2",
                                             label: "Retype New Password",
+                                            
                                             inputWidth: 900,
                                             labelWidth: FORM_CONFIG.ACC_SETTING_LABEL_WIDTH,
                                             //width: FORM_CONFIG.INPUT_WIDTH,
@@ -122,6 +170,20 @@ webix.ready(function () {
                                             invalidMessage: "Password must be at least 8 characters",
                                             
                                         },
+                                        {
+                                            view: "template",
+                                            id: "passwordStrengthTemplate",
+                                            height: 30,
+                                            
+                                            css: "password-strength",
+                                            template: `
+                                                <div class="strength-wrapper">
+                                                <div class="strength-bar" style="width:0%"></div>
+                                                </div>
+                                                <div class="strength-text">Strength: -</div>
+                                            `
+                                        }
+                                            ,
                                         {
                                             margin: 10,
                                             cols: [
@@ -176,6 +238,12 @@ webix.ready(function () {
                                         view: "form",
                                         id: "notificationForm",
                                         padding: FORM_CONFIG.FORM_PADDING,
+                                        on: {
+                                        onChange: function () {
+                                            isNotificationDirty = true;
+                                        }
+                                        },
+
                                         //minWidth: FORM_CONFIG.FORM_MIN_WIDTH,
                                         //maxWidth: FORM_CONFIG.FORM_MAX_WIDTH,
                                         css: "form-card",
@@ -266,6 +334,12 @@ webix.ready(function () {
                                         view: "form",
                                         id: "themeForm",
                                         padding: FORM_CONFIG.FORM_PADDING,
+                                        on: {
+                                        onChange: function () {
+                                            isThemeDirty = true;
+                                        }
+                                        },
+
                                         //minWidth: FORM_CONFIG.FORM_MIN_WIDTH,
                                         //maxWidth: FORM_CONFIG.FORM_MAX_WIDTH,
                                         css: "form-card",
@@ -372,6 +446,11 @@ webix.ready(function () {
                         view: "form",
                         id: "privacyForm",
                         css: "form-card",
+                        on: {
+                        onChange: function () {
+                            isPrivacyDirty = true;
+                        }
+                        },
                         padding: FORM_CONFIG.FORM_PADDING,
 
                         elements: [
@@ -511,7 +590,9 @@ webix.ready(function () {
 }
 
 
-                ]
+                ],
+                
+
             },
             
         ]
@@ -563,6 +644,13 @@ function saveAccountSettings() {
     type: "success",
     text: "Account Settings Saved Successfully!"
   });
+
+  // clean the variable after saved
+  isAccountDirty = false;
+
+$$("passwordInput").setValue("");
+updatePasswordStrength("");
+
 }
 
 
@@ -606,6 +694,8 @@ function saveNotificationSettings() {
         expire: 3000,
         css: "webix_success"
     });
+
+    isNotificationDirty = false
 }
 
 
@@ -624,6 +714,7 @@ function saveThemeSettings() {
     });
 
     applyThemePreview(data); 
+    isThemeDirty = false
 }
 
 function applyThemePreview(theme) {
@@ -712,4 +803,42 @@ function savePrivacySettings() {
     type: "success",
     text: "Privacy Settings Saved Successfully!"
   });
+
+  isPrivacyDirty = false
+}
+
+window.addEventListener("beforeunload", function (e) {
+  if (
+    isAccountDirty ||
+    isNotificationDirty ||
+    isThemeDirty ||
+    isPrivacyDirty
+  ) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+
+
+function updatePasswordStrength(password) {
+  let strength = 0;
+
+  if (password.length >= 8) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[a-z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+  if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+  let percent = (strength / 5) * 100;
+  let text = "Weak";
+
+  if (strength >= 4) text = "Strong";
+  else if (strength >= 3) text = "Medium";
+
+  const template = $$("passwordStrengthTemplate").getNode();
+  const bar = template.querySelector(".strength-bar");
+  const label = template.querySelector(".strength-text");
+
+  bar.style.width = percent + "%";
+  label.innerHTML = `Strength: ${text}`;
 }

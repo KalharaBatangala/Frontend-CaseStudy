@@ -32,6 +32,67 @@
     color: #ffffff !important;
 }
 
+/* .password-strength {
+  margin-top: 8px;
+}
+
+.strength-wrapper {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, red, orange, green);
+  transition: width 0.3s ease;
+}
+
+.strength-text {
+  font-size: 12px;
+  margin-top: 4px;
+  color: #555;
+} */
+
+
+.password-strength {
+  margin-top: 8px;
+  width: 100%;
+  max-width: 320px;   /* ✅ Desktop cap */
+  margin-left: var(--input-offset);
+}
+
+@media (max-width: 480px) {
+  .password-strength {
+    max-width: 100%;  /* ✅ Full width on mobile */
+  }
+}
+
+.strength-wrapper {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, red, orange, green);
+  transition: width 0.3s ease;
+}
+
+.strength-text {
+  font-size: 12px;
+  margin-top: 4px;
+  color: #555;
+}
+
+
 /* ========== PRIMARY COLOR SYSTEM ========== */
 :root {
     --primary-color: #4CAF50;
@@ -39,6 +100,7 @@
     --form-padding: 24px;
     --field-gap: 12px;
     --form-max-width: 650px;
+    --input-offset: 170px;
 }
 
 /* Save buttons */
