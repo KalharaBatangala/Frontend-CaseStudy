@@ -1,4 +1,4 @@
-# ⚙️ Full Stack User Settings Dashboard
+# ⚙️ Full Stack User Preferences Dashboard
 
 **Webix Frontend + Django Backend**
 
@@ -7,7 +7,10 @@
 
 A modern **full-stack user settings management system** built with **Webix UI (Frontend)** and **Django REST API (Backend)**.
 
+## 🔗 Related Repository
 
+Backend (Django REST API):  
+👉 https://github.com/KalharaBatangala/Backend-CaseStudy
 ---
 
 ## Features
@@ -24,7 +27,6 @@ A modern **full-stack user settings management system** built with **Webix UI (F
 
 # 📁 Project Structure
 
-## ✅ Frontend Repo
 
 ```
 Frontend-CaseStudy/
