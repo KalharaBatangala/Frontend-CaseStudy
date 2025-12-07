@@ -634,16 +634,45 @@ function saveAccountSettings() {
   }
 
   
-  console.log("Saved Account Data:", {
+  const payload = {
     username: values.username,
     email: values.email,
-    
-  });
+    //current_password: values.current_password,
+    password: values.new_password1
+  };
 
-  webix.message({
-    type: "success",
-    text: "Account Settings Saved Successfully!"
-  });
+  fetch("http://127.0.0.1:8000/api/account/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => {
+          throw err;
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      webix.message({
+        type: "success",
+        text: "Account settings saved successfully!"
+      });
+
+      console.log("Backend Response:", data);
+      form.clear();
+    })
+    .catch(error => {
+      console.error("API Error:", error);
+
+      webix.message({
+        type: "error",
+        text: error.error || "Failed to save data to backend"
+      });
+    });
 
   // clean the variable after saved
   isAccountDirty = false;
