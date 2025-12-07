@@ -1,3 +1,14 @@
+/* Default fallback */
+body {
+    font-size: 16px;
+}
+
+/* This makes the magic work when we inject the class */
+.webix_view {
+    transition: font-size 0.2s ease;
+}
+
+
 /* ========== LIGHT THEME ========== */
 .light-theme {
     background: #f5f7fa;
@@ -100,6 +111,7 @@
     --form-padding: 24px;
     --field-gap: 12px;
     --form-max-width: 650px;
+    --app-font-size: 16px;
     --input-offset: 170px;
 }
 
@@ -139,6 +151,8 @@ body {
     background: linear-gradient(to bottom right, #dbe6f6, #ffffff);
     margin: 0;
     font-family: var(--app-font);
+    font-size: var(--app-font-size);   /* <-- THIS MAKES IT WORK! */
+    transition: font-size 0.2s ease;   /* smooth change */
 }
 
 #app {
@@ -252,4 +266,28 @@ body {
 }
 .eye-toggle:hover {
     color: #333;
+}
+
+.toolbar-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-left: 80px;
+
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.toolbar-title img {
+    width: 28px;
+    height: 28px;
+    
+}
+
+.toolbar-title span {
+    font-weight: 300;
+    font-size: 30px;
+    
 }

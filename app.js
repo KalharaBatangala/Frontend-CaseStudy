@@ -37,7 +37,14 @@ webix.ready(function () {
                 css: "webix_dark",
                 padding: FORM_CONFIG.TOOLBAR_PADDING,
                 elements: [
-                    { view: "label", label: "User Preferences", align: "center" }
+                    { view: "template",
+                        css: "toolbar-title",
+        template: `
+            <div style="display: flex; align-items: center; margin-left: 550px; font-size: 30px ">
+                <img src="settings.png" style="width: 28px; height: 28px; margin-right: 8px;" />
+                <span>User Preferences</span>
+            </div>`,
+        height: 50 }
                 ]
             },
 
@@ -371,7 +378,7 @@ webix.ready(function () {
                                                 view: "colorpicker",
                                                 label: "Primary Color",
                                                 name: "primaryColor",
-                                                inputWidth:900,
+                                                inputWidth:420,
                                                 labelWidth: FORM_CONFIG.THEME_SETTING_LABEL_WIDTH,
                                                 value: "#4CAF50"
                                             },
@@ -397,7 +404,26 @@ webix.ready(function () {
                                                     }
                                                 }
                                             },
-
+                                            {
+                                                view: "slider",
+                                                id: "fontSizeSlider",
+                                                label: "Font Size",
+                                                name: "fontSize",
+                                                labelWidth: FORM_CONFIG.THEME_SETTING_LABEL_WIDTH,
+                                                min: 12,
+                                                max: 24,
+                                                step: 1,
+                                                value: 16,
+                                                inputWidth: 800,
+                                                title: webix.template("#value# px"),
+                                                on: {
+                                                    onChange: function (value) {
+                                                        applyFontSize(value);
+                                                        isThemeDirty = true;
+                                                    }
+                                                }
+                                            }
+                                            ,
                                             
                                             {
                                                 view: "radio",
@@ -741,7 +767,7 @@ function saveThemeSettings() {
         text: "Theme settings saved successfully!",
         expire: 3000
     });
-
+    
     applyThemePreview(data); 
     isThemeDirty = false
 }
@@ -791,10 +817,73 @@ function applyThemePreview(theme) {
 
 
 function applyFont(fontName) {
-    document.documentElement.style.setProperty(
-        "--app-font",
-        fontName
-    );
+    // Clean font name (in case it has quotes or spaces)
+    const cleanFont = fontName.replace(/['"]/g, '').trim();
+
+    // 1. Update CSS variable (good for your custom elements)
+    document.documentElement.style.setProperty('--app-font', cleanFont);
+
+    // 2. FORCE Webix to obey the new font using dynamic class (same trick as font-size)
+    webix.html.removeCss(document.body, "custom-font-active-font");
+
+    // Create a unique class name based on the font
+    const className = "font-" + cleanFont.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+
+    webix.html.removeCss(document.body, className); // remove old
+    webix.html.addCss(document.body, className);
+
+    // Inject the CSS rule
+    webix.html.addStyle(`
+        .${className} .webix_view,
+        .${className} .webix_el_box,
+        .${className} .webix_inp_label,
+        .${className} input,
+        .${className} button,
+        .${className} .webix_template,
+        .${className} .webix_list_item,
+        .${className} .webix_item_tab,
+        .${className} label {
+            font-family: "${cleanFont}", system-ui, sans-serif !important;
+        }
+    `);
+
+    // Optional: also apply to body for non-Webix content
+    document.body.style.fontFamily = `"${cleanFont}", system-ui, sans-serif`;
+}
+
+let currentFontSize = 16;
+
+// Change font size with the slider
+function applyFontSize(size) {
+    size = parseInt(size, 10);
+
+    // 1. Update CSS variable (good for your own elements)
+    document.documentElement.style.setProperty('--app-font-size', size + 'px');
+
+    // 2. THE IMPORTANT: Force ALL Webix components to use the new size
+    // Remove any previous custom class first
+    webix.html.removeCss(document.body, "custom-font-size");
+
+    // Add a unique class with the exact size
+    webix.html.addCss(document.body, "custom-font-size-" + size);
+
+    // 3. Apply the actual CSS rule dynamically
+    webix.html.addStyle(`
+        .custom-font-size-${size} .webix_el_box,
+        .custom-font-size-${size} .webix_view,
+        .custom-font-size-${size} .webix_inp_label,
+        .custom-font-size-${size} input,
+        .custom-font-size-${size} .webix_el_text,
+        .custom-font-size-${size} label,
+        .custom-font-size-${size} .webix_template,
+        .custom-font-size-${size} .webix_list_item,
+        .custom-font-size-${size} .webix_tabbar,
+        .custom-font-size-${size} .webix_item_tab,
+        .custom-font-size-${size} button {
+            font-size: ${size}px !important;
+            line-height: ${size + 8}px !important;
+        }
+    `);
 }
 
 
